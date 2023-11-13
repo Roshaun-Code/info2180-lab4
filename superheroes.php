@@ -62,32 +62,35 @@ $superheroes = [
       "biography" => "Notably powerful, Wanda Maximoff has fought both against and with the Avengers, attempting to hone her abilities and do what she believes is right to help the world.",
   ], 
 ];
-?>
-
 <?php
-$query = htmlspecialchars(strtoupper(str_replace(" ", "", $_GET['input'])));
-$foundHero = [];
+$searchTerm = htmlspecialchars(strtoupper(str_replace(" ", "", $_GET['input'])));
+$matchingHero = [];
 
-if (empty($query)) :
-    ?>
+if (empty($searchTerm)) :
+?>
     <ul>
-        <?php foreach ($superheroes as $superhero) : ?>
-            <li><?= $superhero['alias']; ?></li>
+        <?php foreach ($superheroes as $hero) : ?>
+            <li><?= $hero['alias']; ?></li>
         <?php endforeach; ?>
     </ul>
-<?php else : ?>
-    <?php foreach ($superheroes as $superhero) :
-        if (in_array($query, [strtoupper(str_replace(" ", "", $superhero['name'])), strtoupper(str_replace(" ", "", $superhero['alias']))])) :
-            $foundHero = $superhero;
+<?php else :
+    foreach ($superheroes as $hero) :
+        $heroName = strtoupper(str_replace(" ", "", $hero['name']));
+        $heroAlias = strtoupper(str_replace(" ", "", $hero['alias']));
+
+        if (in_array($searchTerm, [$heroName, $heroAlias])) :
+            $matchingHero = $hero;
+            break;
         endif;
     endforeach; ?>
 
-    <?php if (empty($foundHero)) : ?>
+    <?php if (empty($matchingHero)) : ?>
         <h4 class="not-found">Superhero not found</h4>
     <?php else : ?>
-        <h3><?= $foundHero['alias'] ?></h3>
-        <h4><?= $foundHero['name'] ?></h4>
-        <p><?= $foundHero['biography'] ?></p>
+        <h3><?= $matchingHero['alias'] ?></h3>
+        <h4><?= $matchingHero['name'] ?></h4>
+        <p><?= $matchingHero['biography'] ?></p>
     <?php endif; ?>
 
 <?php endif; ?>
+
