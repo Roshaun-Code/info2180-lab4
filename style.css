@@ -36,6 +36,10 @@ body{
     background-color: #872341;
     width: 100%;
     min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 input{
