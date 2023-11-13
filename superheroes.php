@@ -66,8 +66,6 @@ $superheroes = [
 ?>
 
 <?php
-$foundHero = [];
-
 $searchTerm = strtoupper(str_replace(" ", "", htmlspecialchars($_GET['input'])));
 $matchingHero = [];
 
