@@ -62,8 +62,13 @@ $superheroes = [
       "biography" => "Notably powerful, Wanda Maximoff has fought both against and with the Avengers, attempting to hone her abilities and do what she believes is right to help the world.",
   ], 
 ];
+
+?>
+
 <?php
-$searchTerm = htmlspecialchars(strtoupper(str_replace(" ", "", $_GET['input'])));
+$foundHero = [];
+
+$searchTerm = strtoupper(str_replace(" ", "", htmlspecialchars($_GET['input'])));
 $matchingHero = [];
 
 if (empty($searchTerm)) :
@@ -74,6 +79,7 @@ if (empty($searchTerm)) :
         <?php endforeach; ?>
     </ul>
 <?php else :
+    // Search for a matching hero based on the search term
     foreach ($superheroes as $hero) :
         $heroName = strtoupper(str_replace(" ", "", $hero['name']));
         $heroAlias = strtoupper(str_replace(" ", "", $hero['alias']));
@@ -82,15 +88,18 @@ if (empty($searchTerm)) :
             $matchingHero = $hero;
             break;
         endif;
-    endforeach; ?>
+    endforeach;
 
-    <?php if (empty($matchingHero)) : ?>
-        <h4 class="not-found">Superhero not found</h4>
-    <?php else : ?>
+    if (!empty($matchingHero)) :
+?>
         <h3><?= $matchingHero['alias'] ?></h3>
         <h4><?= $matchingHero['name'] ?></h4>
         <p><?= $matchingHero['biography'] ?></p>
-    <?php endif; ?>
+<?php else : ?>
+       <h4 class="not-found">Superhero not found</h4>
+<?php endif; ?>
 
 <?php endif; ?>
+
+
 
